@@ -1,0 +1,7 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+  \PYG{n}{ParallelFor} \PYG{n+nf}{pf}\PYG{p}{(}\PYG{n}{parDegree}\PYG{p}{);}
+\PYG{k+kt}{int} \PYG{n}{iterations} \PYG{o}{=} \PYG{p}{(}\PYG{k+kt}{int}\PYG{p}{)}\PYG{n}{everything}\PYG{p}{.}\PYG{n}{allImages}\PYG{p}{.}\PYG{n}{size}\PYG{p}{();}
+\PYG{n}{pf}\PYG{p}{.}\PYG{n}{parallel\PYGZus{}for}\PYG{p}{(}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{n}{iterations}\PYG{p}{,[}\PYG{o}{\PYGZam{}}\PYG{n}{everything}\PYG{p}{](}\PYG{k+kt}{int} \PYG{n}{i}\PYG{p}{)} \PYG{p}{\PYGZob{}}
+  \PYG{n}{forEachImage}\PYG{p}{(}\PYG{n}{everything}\PYG{p}{,} \PYG{n}{i}\PYG{p}{);}
+\PYG{p}{\PYGZcb{});}
+\end{Verbatim}

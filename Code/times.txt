@@ -1,0 +1,7 @@
+Number of sample lines:  8551
+Avg time to load the watermark (usec):  20144
+Avg time to process the watermark (usec):  8270
+Avg time to compute the list of the paths of the images (usec):  1352
+Avg time to load an image (usec):  14588
+Avg time to compute the watermarking on an image (usec):  9194
+Avg time to store the new image (usec):  14538

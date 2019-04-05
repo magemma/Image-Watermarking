@@ -1,0 +1,117 @@
+Commands used to exploit features of rplsh
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~Dell~~~~~~~~~~~~~~~~~~~~~~~~~~
+tLoad=seq(14588)
+tCalc=seq(9194)
+tStore=seq(14538)
+
+main=pipe(tLoad, tCalc, tStore)
+rewrite main with allrules
+optimize main with farmopt
+show main by servicetime, resources
+set resources with 4
+optimize main with maxresources
+show main by servicetime, resources
+
+~~~~Service time~~~~
+
+14588.000000	3	 [5] : pipe(pipe(tLoad,tCalc),tStore)	
+14588.000000	3	 [6] : pipe(tLoad,pipe(tCalc,tStore))	
+14588.000000	5	 [2] : farm(pipe(tLoad,pipe(tCalc,tStore))) with [ nw: 1]	
+14588.000000	5	 [3] : pipe(tLoad,pipe(tCalc,farm(tStore) with [ nw: 1]))	
+14588.000000	5	 [7] : pipe(tLoad,farm(pipe(tCalc,tStore)) with [ nw: 1])	
+14588.000000	5	 [8] : pipe(tLoad,pipe(farm(tCalc) with [ nw: 1],tStore))	
+14588.000000	5	[14] : pipe(farm(tLoad) with [ nw: 1],pipe(tCalc,tStore))	
+14588.000000	7	 [4] : pipe(tLoad,pipe(farm(tCalc) with [ nw: 1],farm(tStore) with [ nw: 1]))	
+14588.000000	7	[11] : pipe(farm(tLoad) with [ nw: 1],pipe(tCalc,farm(tStore) with [ nw: 1]))	
+14588.000000	7	[12] : pipe(farm(tLoad) with [ nw: 1],pipe(farm(tCalc) with [ nw: 1],tStore))	
+14588.000000	7	[13] : pipe(farm(tLoad) with [ nw: 1],farm(pipe(tCalc,tStore)) with [ nw: 1])	
+14588.000000	9	 [9] : pipe(farm(tLoad) with [ nw: 1],pipe(farm(tCalc) with [ nw: 1],farm(tStore) with [ nw: 1]))	
+23732.000000	2	 [1] : pipe(tLoad,comp(tCalc,tStore))	
+29126.000000	2	 [0] : comp(tLoad,pipe(tCalc,tStore))	
+38320.000000	1	[10] : comp(tLoad,comp(tCalc,tStore))
+
+~~~~Latency~~~~
+38320.000000	1	[10] : comp(tLoad,comp(tCalc,tStore))	
+38320.000000	2	 [0] : comp(tLoad,pipe(tCalc,tStore))	
+38320.000000	2	 [1] : pipe(tLoad,comp(tCalc,tStore))	
+38320.000000	3	 [5] : pipe(pipe(tLoad,tCalc),tStore)	
+38320.000000	3	 [6] : pipe(tLoad,pipe(tCalc,tStore))	
+38322.000000	5	 [2] : farm(pipe(tLoad,pipe(tCalc,tStore))) with [ nw: 1]	
+38322.000000	5	 [3] : pipe(tLoad,pipe(tCalc,farm(tStore) with [ nw: 1]))	
+38322.000000	5	 [7] : pipe(tLoad,farm(pipe(tCalc,tStore)) with [ nw: 1])	
+38322.000000	5	 [8] : pipe(tLoad,pipe(farm(tCalc) with [ nw: 1],tStore))	
+38322.000000	5	[14] : pipe(farm(tLoad) with [ nw: 1],pipe(tCalc,tStore))	
+38324.000000	7	 [4] : pipe(tLoad,pipe(farm(tCalc) with [ nw: 1],farm(tStore) with [ nw: 1]))	
+38324.000000	7	[11] : pipe(farm(tLoad) with [ nw: 1],pipe(tCalc,farm(tStore) with [ nw: 1]))	
+38324.000000	7	[12] : pipe(farm(tLoad) with [ nw: 1],pipe(farm(tCalc) with [ nw: 1],tStore))	
+38324.000000	7	[13] : pipe(farm(tLoad) with [ nw: 1],farm(pipe(tCalc,tStore)) with [ nw: 1])	
+38326.000000	9	 [9] : pipe(farm(tLoad) with [ nw: 1],pipe(farm(tCalc) with [ nw: 1],farm(tStore) with [ nw: 1]))
+
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~Xeon Phi~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+tLoad=seq(80796)
+tCalc=seq(137705)
+tStore=seq(104757)
+
+main=pipe(tLoad, tCalc, tStore)
+rewrite main with allrules
+optimize main with farmopt
+show main by servicetime, resources
+set resources with 64
+optimize main with maxresources
+show main by servicetime, resources
+
+~~~~Service time~~~~
+
+5771.142857	64	 [9] : pipe(farm(tLoad) with [ nw: 14],pipe(farm(tCalc) with [ nw: 25],farm(tStore) with [ nw: 19]))	
+5987.173913	64	[13] : pipe(farm(tLoad) with [ nw: 14],farm(pipe(tCalc,tStore)) with [ nw: 23])	
+6885.250000	62	 [2] : farm(pipe(tLoad,pipe(tCalc,tStore))) with [ nw: 20]	
+80796.000000	63	 [7] : pipe(tLoad,farm(pipe(tCalc,tStore)) with [ nw: 30])	
+80796.000000	64	 [4] 14588.000000	3	 [5] : pipe(pipe(tLoad,tCalc),tStore)	
+14588.000000	3	 [6] : pipe(tLoad,pipe(tCalc,tStore))	
+14588.000000	5	 [2] : farm(pipe(tLoad,pipe(tCalc,tStore))) with [ nw: 1]	
+14588.000000	5	 [3] : pipe(tLoad,pipe(tCalc,farm(tStore) with [ nw: 1]))	
+14588.000000	5	 [7] : pipe(tLoad,farm(pipe(tCalc,tStore)) with [ nw: 1])	
+14588.000000	5	 [8] : pipe(tLoad,pipe(farm(tCalc) with [ nw: 1],tStore))	
+14588.000000	5	[14] : pipe(farm(tLoad) with [ nw: 1],pipe(tCalc,tStore))	
+14588.000000	7	 [4] : pipe(tLoad,pipe(farm(tCalc) with [ nw: 1],farm(tStore) with [ nw: 1]))	
+14588.000000	7	[11] : pipe(farm(tLoad) with [ nw: 1],pipe(tCalc,farm(tStore) with [ nw: 1]))	
+14588.000000	7	[12] : pipe(farm(tLoad) with [ nw: 1],pipe(farm(tCalc) with [ nw: 1],tStore))	
+14588.000000	7	[13] : pipe(farm(tLoad) with [ nw: 1],farm(pipe(tCalc,tStore)) with [ nw: 1])	
+14588.000000	9	 [9] : pipe(farm(tLoad) with [ nw: 1],pipe(farm(tCalc) with [ nw: 1],farm(tStore) with [ nw: 1]))	
+23732.000000	2	 [1] : pipe(tLoad,comp(tCalc,tStore))	
+29126.000000	2	 [0] : comp(tLoad,pipe(tCalc,tStore))	
+38320.000000	1	[10] : comp(tLoad,comp(tCalc,tStore)): pipe(tLoad,pipe(farm(tCalc) with [ nw: 34],farm(tStore) with [ nw: 25]))	
+104757.000000	64	 [8] : pipe(tLoad,pipe(farm(tCalc) with [ nw: 60],tStore))	
+104757.000000	64	[12] : pipe(farm(tLoad) with [ nw: 1],pipe(farm(tCalc) with [ nw: 58],tStore))	
+137705.000000	3	 [5] : pipe(pipe(tLoad,tCalc),tStore)	
+137705.000000	3	 [6] : pipe(tLoad,pipe(tCalc,tStore))	
+137705.000000	64	 [3] : pipe(tLoad,pipe(tCalc,farm(tStore) with [ nw: 60]))	
+137705.000000	64	[11] : pipe(farm(tLoad) with [ nw: 1],pipe(tCalc,farm(tStore) with [ nw: 58]))	
+137705.000000	64	[14] : pipe(farm(tLoad) with [ nw: 60],pipe(tCalc,tStore))	
+218501.000000	2	 [0] : comp(tLoad,pipe(tCalc,tStore))	
+242462.000000	2	 [1] : pipe(tLoad,comp(tCalc,tStore))	
+323258.000000	1	[10] : comp(tLoad,comp(tCalc,tStore))
+
+
+~~~~Latency~~~~
+show main by latency, resources
+323258.000000	1	[10] : comp(tLoad,comp(tCalc,tStore))	
+323258.000000	2	 [0] : comp(tLoad,pipe(tCalc,tStore))	
+323258.000000	2	 [1] : pipe(tLoad,comp(tCalc,tStore))	
+323258.000000	3	 [5] : pipe(pipe(tLoad,tCalc),tStore)	
+323258.000000	3	 [6] : pipe(tLoad,pipe(tCalc,tStore))	
+323260.000000	62	 [2] : farm(pipe(tLoad,pipe(tCalc,tStore))) with [ nw: 20]	
+323260.000000	63	 [7] : pipe(tLoad,farm(pipe(tCalc,tStore)) with [ nw: 30])	
+323260.000000	64	 [3] : pipe(tLoad,pipe(tCalc,farm(tStore) with [ nw: 60]))	
+323260.000000	64	 [8] : pipe(tLoad,pipe(farm(tCalc) with [ nw: 60],tStore))	
+323260.000000	64	[14] : pipe(farm(tLoad) with [ nw: 60],pipe(tCalc,tStore))	
+323262.000000	64	 [4] : pipe(tLoad,pipe(farm(tCalc) with [ nw: 34],farm(tStore) with [ nw: 25]))	
+323262.000000	64	[11] : pipe(farm(tLoad) with [ nw: 1],pipe(tCalc,farm(tStore) with [ nw: 58]))	
+323262.000000	64	[12] : pipe(farm(tLoad) with [ nw: 1],pipe(farm(tCalc) with [ nw: 58],tStore))	
+323262.000000	64	[13] : pipe(farm(tLoad) with [ nw: 14],farm(pipe(tCalc,tStore)) with [ nw: 23])	
+323264.000000	64	 [9] : pipe(farm(tLoad) with [ nw: 14],pipe(farm(tCalc) with [ nw: 25],farm(tStore) with [ nw: 19]))	
+

@@ -1,0 +1,51 @@
+This is the code I used to generate possible stream parallel patterns for both my quadcore laptop and xeon phi.
+
+(*) Laptop
+tLoad = seq(15488)
+tCalc = seq(9194)
+tStore = seq(14538)
+main = pipe(tLoad, tCalc, tStore)
+optimize main with farmopt
+rewrite main with allrules
+show main by servicetime, resources
+15488.000000	3	 [1] : pipe(pipe(tLoad,tCalc),tStore)	
+15488.000000	3	 [6] : pipe(tLoad,pipe(tCalc,tStore))	
+15488.000000	5	 [2] : pipe(tLoad,pipe(tCalc,farm(tStore) with [ nw: 1]))	
+15488.000000	5	 [3] : farm(pipe(tLoad,pipe(tCalc,tStore))) with [ nw: 1]	
+15488.000000	5	 [7] : pipe(tLoad,farm(pipe(tCalc,tStore)) with [ nw: 1])	
+15488.000000	5	 [8] : pipe(tLoad,pipe(farm(tCalc) with [ nw: 1],tStore))	
+15488.000000	5	[10] : pipe(farm(tLoad) with [ nw: 1],pipe(tCalc,tStore))	
+15488.000000	7	 [0] : pipe(tLoad,pipe(farm(tCalc) with [ nw: 1],farm(tStore) with [ nw: 1]))	
+15488.000000	7	 [9] : pipe(farm(tLoad) with [ nw: 1],pipe(farm(tCalc) with [ nw: 1],tStore))	
+15488.000000	7	[11] : pipe(farm(tLoad) with [ nw: 1],farm(pipe(tCalc,tStore)) with [ nw: 1])	
+15488.000000	7	[12] : pipe(farm(tLoad) with [ nw: 1],pipe(tCalc,farm(tStore) with [ nw: 1]))	
+15488.000000	9	[13] : pipe(farm(tLoad) with [ nw: 1],pipe(farm(tCalc) with [ nw: 1],farm(tStore) with [ nw: 1]))	
+23732.000000	2	 [5] : pipe(tLoad,comp(tCalc,tStore))	
+30026.000000	2	 [4] : comp(tLoad,pipe(tCalc,tStore))	
+39220.000000	1	[14] : comp(tLoad,comp(tCalc,tStore))	
+
+
+(*) Xeon Phi
+tLoad = seq(80796)
+tCalc = seq(137705)
+tStore = seq(104757)
+main = pipe(tLoad, tCalc, tStore)
+optimize main with farmopt
+rewrite main with allrules
+show main by servicetime, resources
+137705.000000	3	 [1] : pipe(pipe(tLoad,tCalc),tStore)	
+137705.000000	3	 [6] : pipe(tLoad,pipe(tCalc,tStore))	
+137705.000000	5	 [2] : pipe(tLoad,pipe(tCalc,farm(tStore) with [ nw: 1]))	
+137705.000000	5	 [3] : farm(pipe(tLoad,pipe(tCalc,tStore))) with [ nw: 1]	
+137705.000000	5	 [7] : pipe(tLoad,farm(pipe(tCalc,tStore)) with [ nw: 1])	
+137705.000000	5	 [8] : pipe(tLoad,pipe(farm(tCalc) with [ nw: 1],tStore))	
+137705.000000	5	[10] : pipe(farm(tLoad) with [ nw: 1],pipe(tCalc,tStore))	
+137705.000000	7	 [0] : pipe(tLoad,pipe(farm(tCalc) with [ nw: 1],farm(tStore) with [ nw: 1]))	
+137705.000000	7	 [9] : pipe(farm(tLoad) with [ nw: 1],pipe(farm(tCalc) with [ nw: 1],tStore))	
+137705.000000	7	[11] : pipe(farm(tLoad) with [ nw: 1],farm(pipe(tCalc,tStore)) with [ nw: 1])	
+137705.000000	7	[12] : pipe(farm(tLoad) with [ nw: 1],pipe(tCalc,farm(tStore) with [ nw: 1]))	
+137705.000000	9	[13] : pipe(farm(tLoad) with [ nw: 1],pipe(farm(tCalc) with [ nw: 1],farm(tStore) with [ nw: 1]))	
+218501.000000	2	 [4] : comp(tLoad,pipe(tCalc,tStore))	
+242462.000000	2	 [5] : pipe(tLoad,comp(tCalc,tStore))	
+323258.000000	1	[14] : comp(tLoad,comp(tCalc,tStore))	
+

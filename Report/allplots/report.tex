@@ -1,0 +1,100 @@
+%chktex-file 1
+% chktex-file 8
+% chktex-file 44
+% chktex-file 17
+% chktex-file 36
+% chktex-file 13
+% chktex-file 15
+% chktex-file 16
+\documentclass[12pt,a4paper,english]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[british]{babel}
+
+%%MUST STAY HERE
+\usepackage[svgnames, table]{xcolor}
+%%
+
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{array}
+\usepackage{amssymb}
+\usepackage{arydshln}
+\usepackage{attachfile}
+
+\usepackage{booktabs}
+\usepackage[some]{background}
+
+\usepackage{eurosym}
+\usepackage[euler-digits]{eulervm}
+
+\usepackage[T1]{fontenc}
+\usepackage{fullpage}
+\usepackage{graphicx}
+
+\usepackage{hyperref}
+%%Must stay here
+\usepackage{caption}
+\usepackage{cleveref}
+%%
+\usepackage{hhline}
+
+\usepackage{mathtools}
+\usepackage{minted}
+\usepackage{multicol}
+\usepackage{multirow}
+
+\usepackage[numbers,sort]{natbib}
+\usepackage{navigator}
+
+\usepackage{pgffor}
+\usepackage{pgfplots}
+
+\usepackage{siunitx}
+
+\usepackage{tabularx}
+\usepackage{tikz}
+
+\usepackage{verbatim}
+
+\begin{document}
+
+\section{Dell}
+
+\foreach \w in {blotches-01.png, blotches-15.png, plasma-11.png, polaroid-02.png, random-05.png, random-40.png, random-85.png, swirl-06.png}{
+  \subsection{\w}
+    \foreach \n/\m in {fastFlow/fastFlowMemory, grPPi/grPPiMemory, parallelFor/parallelForMemory, threads/threadsMemory}{
+      \begin{tabular}{cc}
+        \bf \n & \bf \m \\
+        \toprule
+        \indent\includegraphics[angle=270, width=0.45\textwidth]{../Code/times/outDell/\n/\w/all.eps} &
+        \includegraphics[angle=270, width=0.45\textwidth]{../Code/times/outDell/\m/\w/all.eps}\\
+        &\\
+      \end{tabular}
+
+      \vspace{0.5cm}
+     
+  }
+  \newpage
+}
+
+\section{Xeon Phi using icc}
+
+\foreach \w in {blotches-01.png, blotches-15.png, plasma-11.png, polaroid-02.png, random-05.png, random-40.png, random-85.png, swirl-06.png}{
+  \subsection{\w}
+    \foreach \n/\m in {fastFlow/fastFlowMemory, grPPi/grPPiMemory, parallelFor/parallelForMemory, threads/threadsMemory}{
+      \begin{tabular}{cc}
+        \bf \n & \bf \m \\
+        \toprule
+        \indent\includegraphics[angle=270, width=0.45\textwidth]{../Code/times/out/\n/\w/all.eps} &
+        \includegraphics[angle=270, width=0.45\textwidth]{../Code/times/out/\m/\w/all.eps}\\
+        &\\
+      \end{tabular}
+
+      \vspace{0.5cm}
+  
+    }
+  \newpage
+}
+
+\end{document}
